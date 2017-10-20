@@ -26,18 +26,6 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
  *
  * 初始化之前没有config/current.php 配置，特别处理
  */
-$input = new ArgvInput($argv);
-if ($input->getFirstArgument() == 'init') {
-    $definition = new InputDefinition([
-        new InputArgument('cmd', InputArgument::REQUIRED),
-        new InputOption('env', 'E', InputOption::VALUE_OPTIONAL, '', 'dev')
-    ]);
-    $input->bind($definition);
-    $env = $input->getOption('env');
-    putenv('MX2_ENV=' . $env);
-}
-
-putenv('MX2_ENV=dev');
 $application = new Console();
 $application->add(new Test());
 $application->run();

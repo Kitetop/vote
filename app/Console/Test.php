@@ -23,21 +23,11 @@ class Test extends CommandAbstract
 {
     protected function configure()
     {
-        $this->setName('build')
-            ->setDescription('检查代码语法，生成文档')
-            ->addOption(
-                'env',
-                'E',
-                InputOption::VALUE_OPTIONAL,
-                '运行环境  dev | test | prod',
-                'dev'
-            );
+        $this->setName('test')->setDescription('控制台demo');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $params = [];
-        $params['env'] = $input->getOption('env');
-        var_dump($params);
+        echo "test\n";
     }
 }

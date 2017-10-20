@@ -17,10 +17,7 @@ class App extends AppAbstract
 {
     public function __construct()
     {
-        $env = 'dev';
-        if (getenv('MX2_ENV')) {
-            $env = getenv('MX2_ENV');
-        }
+        $env = getenv('DXPHP_ENV') ?: 'dev';
         $config = require __DIR__ . '/../config/' . $env . '.php';
         parent::__construct($config);
     }
