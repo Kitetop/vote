@@ -28,6 +28,6 @@
     "php": ">=7.0.0",
     "symfony/console": "v3.3.10",
     "mongodb/mongodb": "^1.1.0",
-    "dx/dx": "dev-1-start-dx"
+    "dx/dx": "dev-master"
   }
 }
