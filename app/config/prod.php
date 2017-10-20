@@ -45,7 +45,7 @@ $config['action'] = [
  */
 $config['logger'] = [
     'name' => 'errorlog',
-    'write' => '/var/log/mxapp/huangjide_app.log',
+    'write' => $config['root'] . '/runtime/logs/default_error.log',
     'level' => 7
 ];
 
