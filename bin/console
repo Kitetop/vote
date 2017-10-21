@@ -1,0 +1,43 @@
+#!/usr/bin/env php
+<?php
+
+namespace App;
+
+/*
+ * 内置工具 包含 项目初始化、构建、发布
+ */
+
+use App\Kernel\Console;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+
+use App\Console\Test;
+
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    include __DIR__ . '/../vendor/autoload.php';
+} else {
+    include __DIR__ . '/../../../autoload.php';
+}
+
+/*
+ * init fix
+ *
+ * 初始化之前没有config/current.php 配置，特别处理
+ */
+$input = new ArgvInput($argv);
+if ($input->getFirstArgument() == 'init') {
+    $definition = new InputDefinition([
+        new InputArgument('cmd', InputArgument::REQUIRED),
+        new InputOption('env', 'E', InputOption::VALUE_OPTIONAL, '', 'dev')
+    ]);
+    $input->bind($definition);
+    $env = $input->getOption('env');
+    putenv('MX2_ENV=' . $env);
+}
+
+putenv('MX2_ENV=dev');
+$application = new Console();
+$application->add(new Test());
+$application->run();
