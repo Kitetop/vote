@@ -36,7 +36,7 @@ class Main extends ActionAbstract
     {
         $this->response(["message" => "hello world"]);
 
-        $dbconf = $this->config('dbconf');
+        $dbconf = $this->config('db');
         $this->response('dbconf', $dbconf);
 
         $service = $this->service('Example');
