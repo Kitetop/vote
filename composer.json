@@ -1,23 +1,21 @@
 {
-  "repositories": {
-    "dx": {
-      "type": "vcs",
-      "url": "git@git.duxze.com:php/dx.git"
-    },
-    "packagist": {
-      "type": "composer",
-      "url": "https://packagist.phpcomposer.com"
-    }
+  "scripts": {
+    "build": ["mkdir dist && cp -R app public runtime vendor composer* dist/"],
+    "dev": ["php -S 0.0.0.0:8082 -t public/"],
+    "pre-install-cmd": [
+      "echo pre-install-cmd"
+      ],
+    "post-install-cmd": [
+      "mkdir runtime/logs/ -p"
+      ]
   },
-  "name": "huangjide/app",
-  "description": "A Mx2 Project.",
+  "name": "dx/template",
+  "description": "dx project template",
   "license": "proprietary",
-  "author": [
-  {
+  "author": [{
     "name": "huangjide",
     "email": "hjd@duxze.com"
-  }
-  ],
+  }],
   "autoload": {
     "psr-4": {
       "App\\": "app/"
@@ -29,5 +27,15 @@
     "symfony/console": "v3.3.10",
     "mongodb/mongodb": "^1.1.0",
     "dx/dx": "dev-master"
+  },
+  "repositories": {
+    "dx": {
+      "type": "vcs",
+      "url": "git@ssh.duxze.com:php/dx.git"
+    },
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
   }
 }

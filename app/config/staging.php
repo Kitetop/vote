@@ -8,9 +8,7 @@ namespace App;
 
 $config = require __DIR__ . '/prod.php';
 
-$config['env'] = 'dev';
+$config['env'] = 'staging';
 $config['debug'] = true;
-
-$config['logger']['write'] = $config['root'] . '/runtime/logs/default_error.log';
 
 return $config;

@@ -1,12 +1,8 @@
-# dx项目模板
+# DXPHP 项目模版
 
-## 使用流程
+## 检查更改
 
-```
-git clone https://git.duxze.com/php/dx-template.git myproject
-```
+- composer.json 项目信息
+- README.md 介绍咯
+- 配置文件 config
 
-## 需要变更内容
-
-- composer.json  项目名字、描述
-- config 配置内容

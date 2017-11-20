@@ -3,6 +3,7 @@
 namespace App\Kernel;
 
 use Mx\Http\Front;
+use Mx\Http\Message\Router;
 use Mx\Base\Kernel\AppAbstract;
 
 /**
@@ -17,20 +18,32 @@ class App extends AppAbstract
 {
     public function __construct()
     {
-        $env = getenv('DXPHP_ENV') ?: 'dev';
+        $env = $this->getRuntimeEnvName();
         $config = require __DIR__ . '/../config/' . $env . '.php';
+
         parent::__construct($config);
     }
 
     public function run()
     {
-        $font = new Front($this);
+        $router = new Router($this->routes(), $this->config['action']);
+        $font = new Front($this, $router);
 
         $font->registerPhase(new \Mx\Http\Phase\PhaseInit());
-        $font->registerPhase(new \Mx\Http\Phase\PhaseAdapter());
-        $font->registerPhase(new \Mx\Http\Phase\PhaseDispatch());
+        $font->registerPhase(new \Mx\Http\Phase\PhaseRoute());
         $font->registerPhase(new \Mx\Http\Phase\PhaseOutput());
 
         $font->run();
+    }
+
+    public function routes()
+    {
+        $routes = [
+            ['path' => '/hello', 'action' => 'Main', 'name' => 'helloname'],
+            ['path' => '/alias', 'alias' => 'helloname'],
+            ['path' => '/redirect', 'redirect' => 'hello'],
+            ['path' => '/', 'action' => 'Main']
+        ];
+        return $routes;
     }
 }
