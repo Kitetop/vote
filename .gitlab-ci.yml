@@ -1,0 +1,92 @@
+image: docker.duxze.com/devops/dxbuild:v1.0.2
+
+variables:
+  DOCKER_HOST: tcp://localhost:2375
+  DOCKER_DRIVER: overlay
+  CHART_URL: http://files.duxze.com/devops/charts/dxphp-0.1.0.tgz
+  
+stages:
+  - build
+  - deploy
+     
+before_script:
+  - whoami
+
+# 构建image并发布到gitlab registry
+.build_docker_image: &build_docker_image
+  image: docker.duxze.com/devops/dxdeploy:k8sv15
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u gitlab-ci-token -p "$CI_BUILD_TOKEN" "$CI_REGISTRY"
+    - docker build -t "$CI_REGISTRY_IMAGE:${CI_ENVIRONMENT_SLUG}" .
+    - docker push "$CI_REGISTRY_IMAGE:${CI_ENVIRONMENT_SLUG}"
+
+build: # build出需要发布的静态
+  stage: build
+  cache:
+    key: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+    paths:
+      - vendor/
+  script:
+    - composer install --no-dev
+    - composer run build
+  artifacts:
+    paths:
+      - dist/
+  only:
+    - web
+    - master
+
+.deploy_staging:
+  <<: *build_docker_image
+  stage: deploy
+  script:
+    - /deploy2k8s.sh ${CHART_URL} dx.runTimeEnv=staging
+  environment:
+    name: staging
+    url: http://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_PATH_SLUG}.duxze.cn
+  only:
+    - master
+
+.deploy_review:
+  <<: *build_docker_image
+  stage: deploy
+  script:
+    - /deploy2k8s.sh ${CHART_URL} dx.runTimeEnv=staging
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: http://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_PATH_SLUG}.duxze.cn
+    on_stop: stop_review
+  only:
+    - web
+  except:
+    - master
+
+.deploy_prod:
+  <<: *build_docker_image
+  stage: deploy
+  script:
+    - /deploy2k8s.sh ${CHART_URL} dx.runTimeEnv=prod
+  environment:
+    name: production
+    url: http://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_PATH_SLUG}.duxze.cn
+  when: manual
+  only:
+  - master
+
+.stop_review:
+  stage: deploy
+  image: docker.duxze.com/devops/dxdeploy:k8sv15
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - helm delete --purge "${CI_ENVIRONMENT_SLUG}-${KUBE_NAMESPACE}"
+  when: manual
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
+  only:
+    - web
+  except:
+    - master

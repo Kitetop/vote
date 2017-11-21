@@ -1,7 +1,7 @@
 /build
 .phpcd
 /vendor
-composer.lock
 *.swp
 *.swo
 runtime/logs/
+dist
