@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console;
 
 use Mx\Console\CommandAbstract;
@@ -9,15 +8,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * 内建命令 build
- *
- * 使用phpmd, phpcs, phpunit, phpdox 进行代码质量自动化处理
- * 可以通过扩展此类来适应项目特殊性处理
+ * 测试命令
  *
  * @see CommandAbstract
- * @author huangjide <huangjide@moxiu.net>
+ * @author huangjide <hjd@duxze.com>
  * @license proprietary
- * @copyright Copyright (c) 魔秀科技(北京)股份有限公司
+ * @copyright Copyright (c) duxze.com
  */
 class Test extends CommandAbstract
 {

@@ -12,20 +12,11 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-
 use App\Console\Test;
 
-if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    include __DIR__ . '/../vendor/autoload.php';
-} else {
-    include __DIR__ . '/../../../autoload.php';
-}
+include __DIR__ . '/../vendor/autoload.php';
 
-/*
- * init fix
- *
- * 初始化之前没有config/current.php 配置，特别处理
- */
 $application = new Console();
 $application->add(new Test());
+//$application->setDefaultCommand($command->getName(), true);
 $application->run();

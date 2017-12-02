@@ -9,38 +9,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Console
+ * 控制台APP
  *
  * @see ConsoleAppAbstract
- * @author huangjide <huangjide@moxiu.net>
+ * @author huangjide <hjd@duxze.com>
  * @license proprietary
- * @copyright Copyright (c) 魔秀科技(北京)股份有限公司
+ * @copyright Copyright (c) duxze.com
  */
 class Console extends ConsoleAppAbstract
 {
     public function __construct()
     {
         $name = "DX PHP APP Command Line Tool";
-        $env = $this->configureRuntimeEnv();
+        $env = $this->getRuntimeEnvName();
         $config = require __DIR__ . '/../config/' . $env .'.php';
         parent::__construct($config, $name);
-    }
-
-    /**
-     * 获取运行时环境 dev|test|prod
-     *
-     * @return string
-     */
-    private function configureRuntimeEnv()
-    {
-        global $argv;
-        $input = new ArgvInput($argv);
-        $definition = new InputDefinition([
-            new InputArgument('cmd', InputArgument::REQUIRED),
-                new InputOption('env', 'E', InputOption::VALUE_OPTIONAL, '', 'dev')
-            ]);
-        $input->bind($definition);
-        $env = $input->getOption('env');
-        return $env;
     }
 }
