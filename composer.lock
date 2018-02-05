@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5831c9b7423978cc4edbd5213bfc0086",
+    "content-hash": "9b3e97308c7ef32976bbc8995faaf6d7",
     "packages": [
         {
             "name": "dx/dx",
@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "git@ssh.duxze.com:php/dx.git",
-                "reference": "b4652fe0f971133c90c49238cc080c0e81dc2a6f"
+                "reference": "e192478aa5be8768cf5f3e2361d649c5416f53cd"
             },
             "require": {
                 "php": ">=7.0.0"
@@ -38,7 +38,7 @@
             ],
             "description": "The Dx Framework.",
             "homepage": "https://git.duxze.com/php/dx",
-            "time": "2017-11-20T16:35:21+00:00"
+            "time": "2018-01-22T08:36:55+00:00"
         },
         {
             "name": "mongodb/mongodb",
@@ -329,63 +329,12 @@
                 "shim"
             ],
             "time": "2017-10-11T12:05:26+00:00"
-        },
-        {
-            "name": "tiesa/ldap",
-            "version": "dev-master",
-            "target-dir": "Toyota/Component/Ldap",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ccottet/ldap.git",
-                "reference": "0759f17996fbb434ee5155dc527b95d8059c6d41"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://files.phpcomposer.com/files/ccottet/ldap/0759f17996fbb434ee5155dc527b95d8059c6d41.zip",
-                "reference": "0759f17996fbb434ee5155dc527b95d8059c6d41",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ldap": "*",
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": ">=3.7.13"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Toyota\\Component\\Ldap\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Cyril Cottet",
-                    "email": "cyril.cottet@gmail.com"
-                }
-            ],
-            "description": "LDAP made easy & practical to use in PHP",
-            "homepage": "https://github.com/ccottet/ldap",
-            "keywords": [
-                "ldap"
-            ],
-            "time": "2013-02-04T07:37:38+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "tiesa/ldap": 20,
         "dx/dx": 20
     },
     "prefer-stable": false,
