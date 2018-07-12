@@ -42,7 +42,9 @@ class App extends AppAbstract
             ['path' => '/hello', 'action' => 'Main', 'name' => 'helloname'],
             ['path' => '/alias', 'alias' => 'helloname'],
             ['path' => '/redirect', 'redirect' => 'hello'],
-            ['path' => '/', 'action' => 'Main']
+            ['path' => '/', 'action' => 'Main'],
+            ['path'=>'/me','action'=>'Register','method'=>'POST'],
+            ['path'=>'/login','action'=>'Login','method'=>'POST'],
         ];
         return $routes;
     }

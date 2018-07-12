@@ -17,6 +17,11 @@ class Main extends ActionAbstract
 {
     protected function handleGet()
     {
-        $this->response("hello");
+        $this->response("hello","lalalla");
+    }
+
+    protected function handlePost()
+    {
+        $this->response("test post");
     }
 }
