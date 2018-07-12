@@ -3,6 +3,7 @@
 namespace App\Action;
 
 use Mx\Http\ActionAbstract;
+use Mx\Service\ServiceAbstract;
 use App\Service\Exc;
 use App\Biz\Votes;
 
@@ -28,12 +29,12 @@ class Result extends ActionAbstract
         ],
     ];
 
-    protected function handlePatch()
+    protected function handlePost()
     {
         $this->validate($this->patchRules);
         $vote = new Votes(['id' => $this->props['voteId']]);
         //辅助检查
-        if (false == $vote->exits()) {
+        if (false == $vote->exist()) {
             throw new Exc('无效的投票编号', 400);
         } elseif (!isset($this->props['voteChoseA'])
             && !isset($this->props['voteChoseB'])
@@ -44,12 +45,10 @@ class Result extends ActionAbstract
         }
         $service = $this->service('VoteResult');
         $service->voteId=$this->props['voteId'];
-        $service->voteChose=$this->props['voteChoseA']?$this->props['voteChoseA']:null;
-        $service->voteChose=$this->props['voteChoseB']?$this->props['voteChoseB']:null;
-        $service->voteChose=$this->props['voteChoseC']?$this->props['voteChoseC']:null;
-        $service->voteChose=$this->props['voteChoseD']?$this->props['voteChoseD']:null;
-        var_dump($service);
-        exit();
+        $service->voteChose=$this->props['voteChoseA']?$this->props['voteChoseA']:$service->voteChose;
+        $service->voteChose=$this->props['voteChoseB']?$this->props['voteChoseB']:$service->voteChose;
+        $service->voteChose=$this->props['voteChoseC']?$this->props['voteChoseC']:$service->voteChose;
+        $service->voteChose=$this->props['voteChoseD']?$this->props['voteChoseD']:$service->voteChose;
         $result=$service->run();
         $url=$this->config('externalUrl').'results/'.$result->id;
         $this->code(201);

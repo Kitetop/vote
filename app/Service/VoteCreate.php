@@ -29,7 +29,7 @@ class VoteCreate extends ServiceAbstract
         try {
             $biz = (new Votes())->import($this->props)->save();
             //查询出该投票记录
-            $vote = new Votes(['userId' => $this->userId, 'voteText' => $this->voteText,'createTime'=>$this->props['createTime']]);
+            $vote = new Votes(['userId' => $this->userId, 'voteText' => $this->voteText, 'createTime' => $this->props['createTime']]);
             $voteId = $vote->id;
             (new Results())->import(['voteId' => $voteId, 'voteChoseA' => 0, 'voteChoseB' => 0, 'voteChoseC' => 0, 'voteChoseD' => 0])->save();
         } catch (\exception $e) {
