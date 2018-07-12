@@ -29,6 +29,7 @@ class UserLogin extends ServiceAbstract
         //对于多种选择登陆的时候需要验证当前选择的登陆方式
         return ['username' => $this->username];
     }
+    //session操作等之后再来完善
 //    private function initSession($user)
 //    {
 //        $session=new Session();

@@ -6,6 +6,7 @@ namespace App\Service;
 use Mx\Service\ServiceAbstract;
 use App\Biz\Users;
 use App\Biz\Votes;
+use App\Biz\Results;
 use App\Service\Exc;
 
 class VoteCreate extends ServiceAbstract
@@ -27,6 +28,10 @@ class VoteCreate extends ServiceAbstract
         $this->props['createTime'] = time();
         try {
             $biz = (new Votes())->import($this->props)->save();
+            //查询出该投票记录
+            $vote = new Votes(['userId' => $this->userId, 'voteText' => $this->voteText,'createTime'=>$this->props['createTime']]);
+            $voteId = $vote->id;
+            (new Results())->import(['voteId' => $voteId, 'voteChoseA' => 0, 'voteChoseB' => 0, 'voteChoseC' => 0, 'voteChoseD' => 0])->save();
         } catch (\exception $e) {
             throw new Exc("写入数据库失败：" . $e->getMessage(), 500);
         }
