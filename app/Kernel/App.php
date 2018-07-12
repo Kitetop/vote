@@ -45,6 +45,7 @@ class App extends AppAbstract
             ['path' => '/', 'action' => 'Main'],
             ['path'=>'/me','action'=>'Register','method'=>'POST'],
             ['path'=>'/login','action'=>'Login','method'=>'POST'],
+            ['path'=>'/vote','action'=>'Vote','method'=>'POST'],
         ];
         return $routes;
     }

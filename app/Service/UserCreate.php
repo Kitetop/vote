@@ -18,14 +18,24 @@ class UserCreate extends ServiceAbstract
     protected function execute()
     {
         // TODO: Implement execute() method.
-        $this->props['username']=$this->username;
-        $this->props['password']=$this->password;
-        try{
-            $biz=(new Users())->import($this->props)->save();
-        }catch(\exception $e){
-            throw new Exc("写入数据库失败：".$e->getMessage(),500);
-    }
-    return $biz;
+        $this->props['username'] = $this->username;
+        $this->props['password'] = $this->password;
+        $query = $this->getQuery();
+        $user = new Users($query);
+        if ($user->exist()) {
+            throw new Exc($this->username . '该账户已经注册', 400);
+        }
+        try {
+            $biz = (new Users())->import($this->props)->save();
+        } catch (\exception $e) {
+            throw new Exc("写入数据库失败：" . $e->getMessage(), 500);
+        }
+        return $biz;
     }
 
+    private function getQuery()
+    {
+        //return ['username' => $this->username,'password'=>$this->password]; 多条件查询语句
+        return ['username' => $this->username];
+    }
 }
