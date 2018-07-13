@@ -3,13 +3,13 @@
 namespace App\Action;
 
 use Mx\Http\ActionAbstract;
-use Mx\Service\ServiceAbstract;
 use App\Service\Exc;
 use App\Biz\Votes;
+use App\Biz\Results;
 
 class Result extends ActionAbstract
 {
-    protected $patchRules = [
+    protected $postRules = [
         'voteId' => [
             'desc' => '投票编号',
             'rules' => ['required'],
@@ -28,32 +28,59 @@ class Result extends ActionAbstract
             'desc' => '投票选项D',
         ],
     ];
+    protected $getRules = [
+        'voteId' => [
+            'desc' => '投票票编号',
+            'rules' => ['required'],
+            'message' => '投票号不能为空'
+        ]
+    ];
+
+    protected function handleGet()
+    {
+        $this->validate($this->getRules);
+        //辅助检查
+        $vote = new Results(['voteId' => $this->props['voteId']]);
+        if (false == $vote->exist()) {
+            throw new Exc('该投票结果不存在', 400);
+        }
+        //取得投票的结果
+        $service = $this->service('ShowResult');
+        $service->voteId = $this->props['voteId'];
+        //数组
+        $show = $service->run();
+        $url = $this->config('externalUrl') . 'results/' . $this->props['voteId'];
+        $show['uri'] = $url;
+        $this->code(200);
+        $this->response($show);
+    }
 
     protected function handlePost()
     {
-        $this->validate($this->patchRules);
+        //不仅会验证数据还会把不需要的数据给过滤掉
+        $this->validate($this->postRules);
         $vote = new Votes(['id' => $this->props['voteId']]);
         //辅助检查
         if (false == $vote->exist()) {
             throw new Exc('无效的投票编号', 400);
-        } elseif (!isset($this->props['voteChoseA'])
-            && !isset($this->props['voteChoseB'])
-            && !isset($this->props['voteChoseC'])
-            && !isset($this->props['voteChoseD'])
-        ) {
-            throw new Exc('投票选择不能为空', 403);
+        }
+        if (count($this->props) == 1) {
+            throw new Exc('投票选项不能为空', 403);
+        } elseif (count($this->props) != 2) {
+            throw new Exc('投票选项不能多个', 403);
         }
         $service = $this->service('VoteResult');
-        $service->voteId=$this->props['voteId'];
-        $service->voteChose=$this->props['voteChoseA']?$this->props['voteChoseA']:$service->voteChose;
-        $service->voteChose=$this->props['voteChoseB']?$this->props['voteChoseB']:$service->voteChose;
-        $service->voteChose=$this->props['voteChoseC']?$this->props['voteChoseC']:$service->voteChose;
-        $service->voteChose=$this->props['voteChoseD']?$this->props['voteChoseD']:$service->voteChose;
-        $result=$service->run();
-        $url=$this->config('externalUrl').'results/'.$result->id;
+        $service->voteId = $this->props['voteId'];
+        $service->voteChose = $this->props['voteChoseA'] ? $this->props['voteChoseA'] : $service->voteChose;
+        $service->voteChose = $this->props['voteChoseB'] ? $this->props['voteChoseB'] : $service->voteChose;
+        $service->voteChose = $this->props['voteChoseC'] ? $this->props['voteChoseC'] : $service->voteChose;
+        $service->voteChose = $this->props['voteChoseD'] ? $this->props['voteChoseD'] : $service->voteChose;
+        $result = $service->run();
+        $url = $this->config('externalUrl') . 'results/' . $result->id;
         $this->code(201);
-        $this->response('id',$result->id);
-        $this->response('uri',$url);
+        $this->response('chose', $service->voteChose);
+        $this->response('id', $result->id);
+        $this->response('uri', $url);
     }
 
 }
