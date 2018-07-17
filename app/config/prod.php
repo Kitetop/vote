@@ -15,7 +15,7 @@ $config = [
  * Action 路由配置
  */
 $config['action'] = [
-    'base' => '/v1/', //基础路径 默认为根路径
+    'base' => '/vote/v1/', //基础路径 默认为根路径
     'default' => 'Main', //默认Action
     'catch' => true, //是否自动捕获异常
     'format' => 'json', //默认输出格式
@@ -23,7 +23,7 @@ $config['action'] = [
 ];
 if (PHP_SAPI !='cli')
 {
-    $config['rootUrl']="http://10.0.190/vote";
+    $config['rootUrl']="http://10.0.20.190:8090";
     $config['externalUrl']=$config['rootUrl'].$config['action']['base'];
     $config['assetUrl']=$config['rootUrl'].'/assets';
 }else{
