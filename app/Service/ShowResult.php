@@ -14,6 +14,7 @@ class ShowResult extends ServiceAbstract
         // TODO: Implement execute() method.
         $vote = (new Votes(['id' => $this->voteId]));
         $value = new Results(['voteId' => $this->voteId]);
+        $result['vote']=$vote->voteText;
         if ($vote->voteChoseA != null) {
             $result[$vote->voteChoseA] = $value->voteChoseA;
         }

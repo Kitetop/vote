@@ -15,9 +15,9 @@ class UserLogin extends ServiceAbstract
         $query = $this->getQuery();
         $user = new Users($query);
         if (false == $user->exist()) {
-            throw new Exc('用户不存在', 404);
+            throw new Exc('用户不存在', 400);
         } elseif (!($user->password === $this->password)) {
-            throw new Exc('密码不匹配', 403);
+            throw new Exc('密码不匹配', 400);
         }
         //写入到session表中
         //$session=$this->initSession($user);
