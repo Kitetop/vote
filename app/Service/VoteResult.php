@@ -15,6 +15,10 @@ class VoteResult extends ServiceAbstract
         $this->props['voteId'] = $this->voteId;
         $this->props['voteChose'] = $this->voteChose;
         $vote = new Votes(['id' => $this->voteId]);
+        //辅助检查
+        if (false == $vote->exist()) {
+            throw new Exc('无效的投票编号', 400);
+        }
         $chose = new Results(['voteId' => $this->voteId]);
 
         if ($vote->voteChoseA == $this->voteChose) {

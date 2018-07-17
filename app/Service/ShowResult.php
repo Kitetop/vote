@@ -13,6 +13,9 @@ class ShowResult extends ServiceAbstract
     {
         // TODO: Implement execute() method.
         $vote = (new Votes(['id' => $this->voteId]));
+        if (false == $vote->exist()) {
+            throw new Exc('该投票结果不存在', 400);
+        }
         $value = new Results(['voteId' => $this->voteId]);
         $result['vote']=$vote->voteText;
         if ($vote->voteChoseA != null) {

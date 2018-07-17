@@ -4,8 +4,6 @@ namespace App\Action;
 
 use Mx\Http\ActionAbstract;
 use App\Service\Exc;
-use App\Biz\Votes;
-use App\Biz\Results;
 
 class Result extends ActionAbstract
 {
@@ -39,11 +37,6 @@ class Result extends ActionAbstract
     protected function handleGet()
     {
         $this->validate($this->getRules);
-        //辅助检查
-        $vote = new Results(['voteId' => $this->props['voteId']]);
-        if (false == $vote->exist()) {
-            throw new Exc('该投票结果不存在', 400);
-        }
         //取得投票的结果
         $service = $this->service('ShowResult');
         $service->voteId = $this->props['voteId'];
@@ -59,11 +52,6 @@ class Result extends ActionAbstract
     {
         //不仅会验证数据还会把不需要的数据给过滤掉
         $this->validate($this->postRules);
-        $vote = new Votes(['id' => $this->props['voteId']]);
-        //辅助检查
-        if (false == $vote->exist()) {
-            throw new Exc('无效的投票编号', 400);
-        }
         if (count($this->props) == 1) {
             throw new Exc('投票选项不能为空', 403);
         } elseif (count($this->props) != 2) {
