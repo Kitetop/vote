@@ -11,4 +11,7 @@ $config = require __DIR__ . '/prod.php';
 $config['env'] = 'staging';
 $config['debug'] = true;
 
+
+$config['db'] = 'mongodb://db-mongodb.kube-public:27017?dbname=xsz_vote';
+
 return $config;
