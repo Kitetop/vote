@@ -29,6 +29,7 @@ class Register extends ActionAbstract
     protected function handlePost()
     {
         //只有在经过验证之后才会将数据写入到$this->props
+        //test submit
         $this->validate($this->postRules);
         if (!isset($this->props['username'])
             || !isset($this->props['password'])
