@@ -24,6 +24,10 @@ class Show extends ActionAbstract
             'rules' => ['mongoid', 'required'],
             'message' => '用户ID不能为空',
         ],
+        'all' => [
+            'desc' => '显示类型',
+            'default' => false,
+        ],
     ];
 
     protected function handleGet()
@@ -33,12 +37,13 @@ class Show extends ActionAbstract
         $service->page = $this->props['page'];
         $service->limit = $this->props['limit'];
         $service->userId = $this->props['userId'];
+        $service->all = $this->props['all'];
         $data = $service->run();
         //获得当前页面的请求路径
-        $url=$this->config('externalUrl').'showlist?';
-        list($data['prev'], $data['next']) = Page::simple($data['meta'],$url, $this->props);
+        $url = $this->config('externalUrl') . 'showlist?';
+        list($data['prev'], $data['next']) = Page::simple($data['meta'], $url, $this->props);
         $data['count'] = $data['meta']['total'];
-        $data['list']=(array)$data['list'];
+        $data['list'] = (array)$data['list'];
         $this->response($data);
         $this->code(200);
     }
