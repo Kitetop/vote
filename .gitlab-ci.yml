@@ -1,9 +1,9 @@
-image: docker.duxze.com/devops/dxbuild:v1.0.2
+image: hub.duxze.com/devops/dxbuild:v1.0.10
 
 variables:
   DOCKER_HOST: tcp://localhost:2375
   DOCKER_DRIVER: overlay
-  CHART_URL: http://files.duxze.com/devops/charts/dxphp-0.1.0.tgz
+  CHART_URL: http://172.16.50.5:9000/devops/helm-charts/dxphp-0.1.1.tgz
   
 stages:
   - build
@@ -14,7 +14,7 @@ before_script:
 
 # 构建image并发布到gitlab registry
 .build_docker_image: &build_docker_image
-  image: docker.duxze.com/devops/dxdeploy:k8sv15
+  image: hub.duxze.com/devops/dxdeploy:v1.0.5
   services:
     - docker:dind
   before_script:
@@ -38,7 +38,7 @@ build: # build出需要发布的静态
     - web
     - master
 
-.deploy_staging:
+deploy_staging:
   <<: *build_docker_image
   stage: deploy
   script:
@@ -49,7 +49,7 @@ build: # build出需要发布的静态
   only:
     - master
 
-.deploy_review:
+deploy_review:
   <<: *build_docker_image
   stage: deploy
   script:
@@ -63,7 +63,7 @@ build: # build出需要发布的静态
   except:
     - master
 
-.deploy_prod:
+deploy_prod:
   <<: *build_docker_image
   stage: deploy
   script:
@@ -75,9 +75,9 @@ build: # build出需要发布的静态
   only:
   - master
 
-.stop_review:
+stop_review:
   stage: deploy
-  image: docker.duxze.com/devops/dxdeploy:k8sv15
+  image: hub.duxze.com/devops/dxdeploy:v1.0.5
   variables:
     GIT_STRATEGY: none
   script:
