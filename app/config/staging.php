@@ -11,4 +11,5 @@ $config = require __DIR__ . '/prod.php';
 $config['env'] = 'staging';
 $config['debug'] = true;
 
+
 return $config;
