@@ -46,9 +46,13 @@ class App extends AppAbstract
             ['path'=>'/me','action'=>'Register','method'=>'POST'],
             ['path'=>'/login','action'=>'Login','method'=>'POST'],
             ['path'=>'/vote','action'=>'Vote','method'=>'POST'],
+            ['path'=>'/vote_v1','action'=>'Vote_v1','method'=>'POST'],
             ['path'=>'/result','action'=>'Result','method'=>'POST'],
             ['path'=>'/result','action'=>'Result','method'=>'GET'],
+            ['path'=>'/result_v1','action'=>'Result_v1','method'=>'POST'],
+            ['path'=>'/result_v1','action'=>'Result_v1','method'=>'GET'],
             ['path'=>'/showlist','action'=>'Show','method'=>'GET'],
+            ['path'=>'/showlist_v1','action'=>'Show_v1','method'=>'GET'],
 
         ];
         return $routes;

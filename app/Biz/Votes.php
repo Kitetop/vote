@@ -6,7 +6,7 @@ class Votes extends RowGateway
 {
     public function getTable()
     {
-        return 'votes';
+        return 'votes_v1';
     }
 //    public function save()
 //    {

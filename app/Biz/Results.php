@@ -7,6 +7,6 @@ class Results extends RowGateway
 {
     public function getTable()
     {
-        return 'results';
+        return 'results_v1';
     }
 }
