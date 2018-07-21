@@ -4,6 +4,7 @@ namespace App\Action;
 
 use Mx\Http\ActionAbstract;
 use Mx\Helper\Page;
+use MongoDB\BSON\ObjectId;
 
 class Show_v1 extends ActionAbstract
 {
@@ -17,7 +18,7 @@ class Show_v1 extends ActionAbstract
         'limit' => [
             'desc' => '每页显示数据条数',
             'rules' => ['Logic:gte:0'],
-            'default' => 2,
+            'default' => 20,
         ],
         'userId' => [
             'desc' => '用户ID',

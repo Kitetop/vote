@@ -16,20 +16,12 @@ class ShowResult_v1 extends ServiceAbstract
         if (false == $vote->exist()) {
             throw new Exc('该投票结果不存在', 400);
         }
-        $value = new Results(['voteId' => $this->voteId]);
-        $result['vote']=$vote->voteText;
-        if ($vote->voteChoseA != null) {
-            $result[$vote->voteChoseA] = $value->voteChoseA;
-        }
-        if ($vote->voteChoseB != null) {
-            $result[$vote->voteChoseB] = $value->voteChoseB;
-        }
-        if ($vote->voteChoseC != null) {
-            $result[$vote->voteChoseC] = $value->voteChoseC;
-        }
-        if ($vote->voteChoseD != null) {
-            $result[$vote->voteChoseD] = $value->voteChoseD;
-        }
-        return $result;
+        $result = (new Results(['voteId' => $this->voteId]))->result;
+        $show['title'] = $vote->title;
+        for ($i = 0; $i < count($result); $i++) {
+            $result[$i]['question'] = $vote->vote[$i]['question'];
+        };
+        $show['result'] = $result;
+        return $show;
     }
 }

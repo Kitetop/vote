@@ -17,7 +17,7 @@ class ShowResult extends ServiceAbstract
             throw new Exc('该投票结果不存在', 400);
         }
         $value = new Results(['voteId' => $this->voteId]);
-        $result['vote']=$vote->voteText;
+        $result['vote'] = $vote->voteText;
         if ($vote->voteChoseA != null) {
             $result[$vote->voteChoseA] = $value->voteChoseA;
         }
