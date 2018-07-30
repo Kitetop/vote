@@ -20,6 +20,7 @@ class ShowResult_v1 extends ServiceAbstract
         $show['title'] = $vote->title;
         for ($i = 0; $i < count($result); $i++) {
             $result[$i]['question'] = $vote->vote[$i]['question'];
+            $result[$i]['type'] = $vote->vote[$i]['type'];
         };
         $show['result'] = $result;
         return $show;
