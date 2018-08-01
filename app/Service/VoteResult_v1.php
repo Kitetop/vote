@@ -18,17 +18,19 @@ class VoteResult_v1 extends ServiceAbstract
             throw new Exc('无效的投票编号', 400);
         }
         $chose = new Results(['voteId' => $this->voteId]);
-        //确保当所有提交都是正确的时候才回存储到数据库
-        $chose->result = $this->sumResult($chose->result);
+        //确保当所有提交都是正确的时候才会存储到数据库
+        $chose->result = $this->sumResult($chose->result, $vote);
         return $chose->save();
     }
 
-    private function sumResult($chose)
+    private function sumResult($chose, $vote)
     {
         for ($i = 0; $i < count($this->result); $i++) {
-            foreach ($this->result[$i] as $value) {
+            foreach ($this->result[$i] as  $value) {
                 if (isset($chose[$i][$value])) {
                     $chose[$i][$value] += 1;
+                } else if ($vote->vote[$i]['type'] === 'checkbox') {
+                    continue;
                 } else {
                     throw new Exc("数据格式错误", 406);
                 }
